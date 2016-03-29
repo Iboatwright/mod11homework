@@ -1,0 +1,47 @@
+Chapter 11 Programming Exercise 9.  Morse Code Converter
+--------------------------------------------------------
+Design a program that asks the user to enter a string, and then converts
+    that string to Morse code. Morse code is a code where each letter of
+    the English alphabet, each digit, and various punctuation characters
+    are represented by a series of dots and dashes. The table below shows
+    part of the code.
+
+Morse Code Characters
+---------------------
+space   space       6 -....     G --.       Q --.-
+comma   --..--      7 --...     H ....      R .-.
+period  .-.-.-      8 ---..     I ..        S ...
+?       ..--..      9 ----.     J .---      T -
+0       -----       A .-        K -.-       U ..-
+1       .----       B -...      L .-..      V ...-
+2       ..---       C -.-.      M --        W .--
+3       ...--       D -..       N -.        X -..-
+4       ....-       E .         O ---       Y -.--
+5       .....       F ..-.      P .---.     Z --..
+
+
+Pseudocode
+----------
+Module main()
+    // Local variables
+
+
+    // Display intro to user.
+    Call fluffy_intro()
+
+    // Function calls
+
+
+End Module
+
+Module fluffy_intro()
+    Display 'Welcome to the Morse Code Converter.'
+    Display 'This program converts a string of characters into morse code'
+    Display ' and displays the results.'
+End Module
+
+
+// Displays the summation results to the user.
+Module display_results(results)
+    Display 'Morse Code Conversion of your string: ', results
+End Module
