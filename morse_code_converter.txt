@@ -20,28 +20,6 @@ period  .-.-.-      8 ---..     I ..        S ...
 5       .....       F ..-.      P .---.     Z --..
 
 
-////// brain storm //////
-    1) loop through character by character doing a dict[character] = 'morse code'
-        swap
-    2) use a list comprehension combined with 1.
-    3) output formatting can either be with the replacement or after
-
-
-    ['{:<10}'.format(code) for code in [dict[char] for char in list(charstring)]]
-//////
-
-
-Algorith
---------
-1) user input string
-2) convert string to list
-3) validate characters in list
-    3a) either discard invalids
-    3b) or raise error for re-entry
-4) map code to characters and apply formatting
-5) display results
-
-
 Pseudocode
 ----------
 Module main()
@@ -139,7 +117,7 @@ Function String prep_results(List Ref valid_out)
     For m In valid_out
         tmp_res += m, ' '
         If len(tmp_res) >= 70
-            results = tmp_res.rstrip(), '{}\n    '
+            results += tmp_res.rstrip(), '\n    '
             tmp_res = ''
         End If
     End For
