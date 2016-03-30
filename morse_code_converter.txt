@@ -46,24 +46,126 @@ Pseudocode
 ----------
 Module main()
     // Local variables
-
+    Declare String results = ''
+    Declare String in_string = ''
+    Declare Dictionary morse[40] = {
+             '0':'-----','1':'.----','2':'..---','3':'...--','4':'....-',
+             '5':'.....','6':'-....','7':'--...','8':'---..','9':'----.',
+             'a':'.-','b':'-...','c':'-.-.','d':'-..','e':'.','f':'..-.',
+             'g':'--.','h':'....','i':'..','j':'.---','k':'-.-','l':'.-..',
+             'm':'--','n':'-.','o':'---','p':'.---.','q':'--.-','r':'.-.',
+             's':'...','t':'-','u':'..-','v':'...-','w':'.--','x':'-..-',
+             'y':'-.--','z':'--..',' ':' ',',':'--..--','.':'.-.-.-',
+             '?':'..--..'
+             }
 
     // Display intro to user.
-    Call fluffy_intro()
+    fluffy_intro()
 
-    // Function calls
+    While end_program.lower() In ['no','n','']
+        // Get the user's input.
+        Set in_string = get_in_string()
 
+        // Convert the input string into Morse Code.
+        Declare List valid_out[len(in_string)]
+        convert_to_morse(in_string, morse, valid_out)
 
+        // Create printable string from valid_out list.
+        Set results = prep_results(valid_out)
+        display_results(results)
+        Set end_program = go_again()
+    End While
+    Display convert_to_morse('goodbye')
 End Module
 
+
+// Displays an intro to the user.
 Module fluffy_intro()
     Display 'Welcome to the Morse Code Converter.'
     Display 'This program converts a string of characters into morse code'
-    Display ' and displays the results.'
+    Display 'and displays the results.  The chart below shows the valid'
+    Display 'characters and their Morse Code. Characters not in this chart'
+    Display 'will be discarded.'
+    Display '''
+        Morse Code Characters
+        ---------------------
+        space   space       6 -....     G --.       Q --.-
+        comma   --..--      7 --...     H ....      R .-.
+        period  .-.-.-      8 ---..     I ..        S ...
+        ?       ..--..      9 ----.     J .---      T -
+        0       -----       A .-        K -.-       U ..-
+        1       .----       B -...      L .-..      V ...-
+        2       ..---       C -.-.      M --        W .--
+        3       ...--       D -..       N -.        X -..-
+        4       ....-       E .         O ---       Y -.--
+        5       .....       F ..-.      P .---.     Z --..
+        '''
 End Module
 
 
-// Displays the summation results to the user.
+// Asks the user to input a string of characters to be translated into
+//      Morse Code.
+Function String get_in_string()
+    Declare String in_string
+    Display 'Please enter a string of characters to be converted.'
+    Input in_string
+    Return in_string.lower()
+End Function
+
+
+// Convert the in_string into a string of Morse Code and return to the
+//      calling module.
+Module List convert_to_morse(String in_string, Dict morse, List Ref valid_out)
+    Declare String valids[len(in_string)]
+
+    // Create a list from the in_string only using the characters used as
+    //      keys in the morse dict.
+    valids = [c for c in list(in_string) if c in morse.keys()]
+
+    // Create a new list of values from the morse dict using each entry in
+    //      the valids list as the key.
+    valid_out = [morse[c] for c in valids]
+End Module
+
+
+// Format the morse code string for ease of readability.  Each entry in the
+//      valid_out list is concatenated with a trailing space in a temporary
+//      string.  When the temp string is 70 or more characters long the
+//      trailing whitespace is stripped and a newline is added.  The temp
+//      string is set to '' after it's contents are appended to results.
+Function String prep_results(List Ref valid_out)
+    Declare String results
+    Declare String tmp_res
+    For m In valid_out
+        tmp_res += m, ' '
+        If len(tmp_res) >= 70
+            results = tmp_res.rstrip(), '{}\n    '
+            tmp_res = ''
+        End If
+    End For
+
+    // Prepend final output message to results.
+    results = 'This is your message in Morse Code:\n    ', results
+    Return results
+End Function
+
+
+// Ask if the user wants to exit the program.
+Function String go_again()
+    Declare String end_program
+
+    Display 'Do you want to exit the program? yes or (n)o'
+    Input end_program
+
+    While end_program Not In ['yes','y','no','n','']
+        Display 'Error: Invalid entry.  Type yes or no.'
+        Input end_program
+    End While
+    Return end_program
+End Function
+
+
+// Displays the results string to the user.
 Module display_results(results)
-    Display 'Morse Code Conversion of your string: ', results
+    Display results
 End Module
