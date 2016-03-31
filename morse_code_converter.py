@@ -36,7 +36,7 @@ def main():
 
         # Discards any invalid characters in the input string, converts it
         #   into Morse Code, then stores/returns it in the valid_out list.
-        convert_to_morse(in_string, morse, valid_out)
+        valid_out = convert_to_morse(in_string, morse)
 
         # Generates a print-friendly string from the Morse Code list.
         results = prep_results(valid_out)
@@ -49,7 +49,7 @@ def main():
         end_program = go_again()
 
     # Exit message.
-    print(prep_results(convert_to_morse('goodbye', morse)))
+    print(prep_results(convert_to_morse('goodbye', morse), False))
     return None
 
 
@@ -80,19 +80,21 @@ def fluffy_intro():
 
 # Returns a string used to identify a new part(i.e. page) of the program.
 def page_header(title):
-    return '{0:-<62}\n\n{1:^67}\n{0:_<62}\n'.format('    ', title)
+    return '{0:-<62}\n{1:^67}\n{0:_<62}\n'.format('    ', title)
 
 
 # Asks the user to input a string of characters to be translated into
 #   Morse Code.
 def get_in_string():
-    return input('Please enter a string of characters to be converted').lower()
+    prompt = 'Please enter a string of characters to be converted:\n'
+    return input(prompt).lower()
 
 
 # Convert the in_string into a string of Morse Code and return to the
 #      calling module.
-def convert_to_morse(in_string, morse, valid_out=list()):
+def convert_to_morse(in_string, morse):
     valids = []
+    valid_out=[]
 
     # Create a list from the in_string only using the characters used as
     #   keys in the morse dict.
@@ -113,12 +115,17 @@ def prep_results(valid_out, pre=True):
     results = ''
     tmp_res = ''
     pre_res = 'This is your message in Morse Code:\n    '
-    
+
     for m in valid_out:
         tmp_res += '{} '.format(m)
         if len(tmp_res) >= 70:
             results += '{}\n    '.format(tmp_res.rstrip())
             tmp_res = ''
+    # After all characters are converted from valid_out any trailing
+    #   characters in tmp_res are appended to results.
+    if len(tmp_res) < 70:
+        results += '{}\n    '.format(tmp_res.rstrip())
+        tmp_res = ''
     # Prepend final output message to results and return the string.
     results = '{}{}'.format(pre_res, results) if pre else results
     return results
@@ -138,3 +145,6 @@ def display_results(results):
     print('{0}{1}{0}'
           ''.format(sep, results))
     return None
+
+
+main()
