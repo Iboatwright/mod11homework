@@ -9,6 +9,8 @@
 def main():
     # Local variables
     results = ''
+    in_string = ''
+    end_program = 'no'
     
     # Morse Code dictionary
     morse = {'0':'-----','1':'.----','2':'..---','3':'...--','4':'....-',
@@ -23,18 +25,56 @@ def main():
     # Display the intro to the user.
     fluffy_intro()
 
-    # todo: write the actual program
+    # Control loop for the program.  The user answers yes to exit when
+    #    prompted.
+    while end_program.lower() in ['no','n','']:
+        print(page_header('Morse Code Converter'))
+        valid_out = []
 
-    # Display the results to the user.
-    display_results(results)
+        # This gets the user's input string.  It is not validated.
+        in_string = get_in_string()
+
+        # Discards any invalid characters in the input string, converts it
+        #   into Morse Code, then stores/returns it in the valid_out list.
+        convert_to_morse(in_string, morse, valid_out)
+
+        # Generates a print-friendly string from the Morse Code list.
+        results = prep_results(valid_out)
+
+        # Display the results to the user.
+        display_results(results)
+
+        # Prompts the user if they want to exit and assigns the valid answer
+        #   to the loop control variable.
+        end_program = go_again()
+
+    # Exit message.
+    print(prep_results(convert_to_morse('goodbye', morse)))
     return None
 
 
 # Displays an introduction to the program and describes what it does.
 def fluffy_intro():
+    print(page_header('Morse Code Converter'))
     print('Welcome to the Morse Code Converter.')
-    print('This program converts a string of characters into morse code'
-          ' and displays the results.')
+    print('This program converts a string of characters into morse code\n'
+          ' and displays the results.  The chart below shows the valid\n'
+          'characters and their Morse Code. Characters not in this chart\n'
+          'will be discarded.')
+    print('''
+        Morse Code Characters
+        ---------------------
+        space   space       6 -....     G --.       Q --.-
+        comma   --..--      7 --...     H ....      R .-.
+        period  .-.-.-      8 ---..     I ..        S ...
+        ?       ..--..      9 ----.     J .---      T -
+        0       -----       A .-        K -.-       U ..-
+        1       .----       B -...      L .-..      V ...-
+        2       ..---       C -.-.      M --        W .--
+        3       ...--       D -..       N -.        X -..-
+        4       ....-       E .         O ---       Y -.--
+        5       .....       F ..-.      P .---.     Z --..
+    ''')
     return None
 
 
@@ -43,8 +83,25 @@ def page_header(title):
     return '{0:-<62}\n\n{1:^67}\n{0:_<62}\n'.format('    ', title)
 
 
-def convert_to_morse():
-    pass
+# Asks the user to input a string of characters to be translated into
+#   Morse Code.
+def get_in_string():
+    return input('Please enter a string of characters to be converted').lower()
+
+
+# Convert the in_string into a string of Morse Code and return to the
+#      calling module.
+def convert_to_morse(in_string, morse, valid_out=list()):
+    valids = []
+
+    # Create a list from the in_string only using the characters used as
+    #   keys in the morse dict.
+    valids = [c for c in list(in_string) if c in morse.keys()]
+
+    # Create a new list of values from the morse dict using each entry in
+    #   the valids list as the key.
+    valid_out = [morse[c] for c in valids]
+    return valid_out
 
 
 #  Format the morse code string for ease of readability.  Each entry in the
@@ -52,7 +109,7 @@ def convert_to_morse():
 #       string.  When the temp string is 70 or more characters long the
 #       trailing whitespace is stripped and a newline is added.  The temp
 #       string is set to '' after it's contents are appended to results.
-def prep_results(valid_out):
+def prep_results(valid_out, pre=True):
     results = ''
     tmp_res = ''
     pre_res = 'This is your message in Morse Code:\n    '
@@ -62,9 +119,9 @@ def prep_results(valid_out):
         if len(tmp_res) >= 70:
             results += '{}\n    '.format(tmp_res.rstrip())
             tmp_res = ''
-
     # Prepend final output message to results and return the string.
-    return '{}{}'.format(pre_res, results)
+    results = '{}{}'.format(pre_res, results) if pre else results
+    return results
 
 
 # Program loop control variable with validation.
@@ -75,9 +132,9 @@ def go_again():
     return end_program
 
 
-# Displays the summation results to the user.
+# Displays the conversion results to the user.
 def display_results(results):
     sep = '\n\n{}\n\n'.format('-'*79)
-    print('{0}The morse code for your string is:\n{1} {0}'
+    print('{0}{1}{0}'
           ''.format(sep, results))
     return None
