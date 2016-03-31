@@ -63,7 +63,7 @@ Module fluffy_intro()
     Display 'Welcome to the Morse Code Converter.'
     Display 'This program converts a string of characters into morse code'
     Display 'and displays the results.  The chart below shows the valid'
-    Display 'characters and their Morse Code. Characters not in this chart'
+    Display 'characters and their Morse code. Characters not in this chart'
     Display 'will be discarded.'
     Display '''
         Morse Code Characters
@@ -83,7 +83,7 @@ End Module
 
 
 // Asks the user to input a string of characters to be translated into
-//      Morse Code.
+//      Morse code.
 Function String get_in_string()
     Declare String in_string
     Display 'Please enter a string of characters to be converted.'
@@ -92,7 +92,7 @@ Function String get_in_string()
 End Function
 
 
-// Convert the in_string into a string of Morse Code and return to the
+// Convert the in_string into a string of Morse code and return to the
 //      calling module.
 Module List convert_to_morse(String in_string, Dict morse, List Ref valid_out)
     Declare String valids[len(in_string)]

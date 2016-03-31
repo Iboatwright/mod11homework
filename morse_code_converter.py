@@ -1,8 +1,8 @@
 # morse_code_converter.py
 # Exercise Selected: Chapter 11 program 9
-# Name of program: Morse Code Converter
+# Name of program: Morse code Converter
 # Description of program:  This program takes a string of characters
-#   input by the user and converts the string to Morse Code.  It then
+#   input by the user and converts the string to Morse code.  It then
 #   displays the converted string to the user.
 
 
@@ -12,7 +12,7 @@ def main():
     in_string = ''
     end_program = 'no'
     
-    # Morse Code dictionary
+    # Morse code dictionary
     morse = {'0':'-----','1':'.----','2':'..---','3':'...--','4':'....-',
              '5':'.....','6':'-....','7':'--...','8':'---..','9':'----.',
              'a':'.-','b':'-...','c':'-.-.','d':'-..','e':'.','f':'..-.',
@@ -35,10 +35,10 @@ def main():
         in_string = get_in_string()
 
         # Discards any invalid characters in the input string, converts it
-        #   into Morse Code, then stores/returns it in the valid_out list.
+        #   into Morse code, then stores/returns it in the valid_out list.
         valid_out = convert_to_morse(in_string, morse)
 
-        # Generates a print-friendly string from the Morse Code list.
+        # Generates a print-friendly string from the Morse code list.
         results = prep_results(valid_out)
 
         # Display the results to the user.
@@ -49,17 +49,18 @@ def main():
         end_program = go_again()
 
     # Exit message.
-    print(prep_results(convert_to_morse('goodbye', morse), False))
+    print('{:^80}'.format(prep_results(convert_to_morse('goodbye', morse),
+                                       False)))
     return None
 
 
 # Displays an introduction to the program and describes what it does.
 def fluffy_intro():
     print(page_header('Morse Code Converter'))
-    print('Welcome to the Morse Code Converter.')
-    print('This program converts a string of characters into morse code\n'
+    print('Welcome to the Morse code Converter.')
+    print('This program converts a string of characters into Morse code\n'
           ' and displays the results.  The chart below shows the valid\n'
-          'characters and their Morse Code. Characters not in this chart\n'
+          'characters and their Morse code. Characters not in this chart\n'
           'will be discarded.')
     print('''
         Morse Code Characters
@@ -84,13 +85,13 @@ def page_header(title):
 
 
 # Asks the user to input a string of characters to be translated into
-#   Morse Code.
+#   Morse code.
 def get_in_string():
-    prompt = 'Please enter a string of characters to be converted:\n'
+    prompt = 'Please enter a string of characters to be converted:\n\n'
     return input(prompt).lower()
 
 
-# Convert the in_string into a string of Morse Code and return to the
+# Convert the in_string into a string of Morse code and return to the
 #      calling module.
 def convert_to_morse(in_string, morse):
     valids = []
@@ -106,7 +107,7 @@ def convert_to_morse(in_string, morse):
     return valid_out
 
 
-#  Format the morse code string for ease of readability.  Each entry in the
+#  Format the Morse code string for ease of readability.  Each entry in the
 #       valid_out list is concatenated with a trailing space in a temporary
 #       string.  When the temp string is 70 or more characters long the
 #       trailing whitespace is stripped and a newline is added.  The temp
@@ -114,7 +115,7 @@ def convert_to_morse(in_string, morse):
 def prep_results(valid_out, pre=True):
     results = ''
     tmp_res = ''
-    pre_res = 'This is your message in Morse Code:\n    '
+    pre_res = 'This is your message in Morse code:\n\n    '
 
     for m in valid_out:
         tmp_res += '{} '.format(m)
@@ -126,7 +127,7 @@ def prep_results(valid_out, pre=True):
     if len(tmp_res) < 70:
         results += '{}\n    '.format(tmp_res.rstrip())
         tmp_res = ''
-    # Prepend final output message to results and return the string.
+    # If the pre argument is set to False nothing is prepended to results.
     results = '{}{}'.format(pre_res, results) if pre else results
     return results
 
@@ -147,4 +148,5 @@ def display_results(results):
     return None
 
 
+# Call main.
 main()
